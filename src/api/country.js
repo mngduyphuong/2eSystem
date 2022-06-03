@@ -6,7 +6,7 @@ const pool = new Pool({
   connectionString:
     process.env.DATABASE_URL ||
     "postgresql://postgres:Teobeo25021999@localhost:5432/database",
-  ssl: process.env.DATABASE_URL ? true : false,
+  ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false,
 });
 
 router.get("/", async (req, res) => {
