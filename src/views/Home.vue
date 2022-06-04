@@ -17,7 +17,7 @@
 import homeCard from "@/components/home/homeCard.vue";
 
 export default {
-  name: "Home",
+  name: "home",
   components: {homeCard},
 };
 </script>
