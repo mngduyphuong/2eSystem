@@ -28,7 +28,7 @@ export default {
   methods: {
     async getData() {
       axios
-        .get("/api/country")
+        .get("api/country")
         .then((response) => {
           // handle success
           console.log(response);
