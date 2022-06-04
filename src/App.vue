@@ -1,32 +1,35 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
+  <div>
+    <b-navbar
+      toggleable="md"
+      type="dark"
+      variant="primary"
+      style="padding: 0.5rem 1rem"
+    >
+      <b-navbar-brand to="/">
+        <div>
+          <img src="./assets/2e_logo.png" width="40%" />
+        </div>
+      </b-navbar-brand>
+
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav>
+          <b-nav-item class="nav-link" to="/">Home</b-nav-item>
+          <b-nav-item class="nav-link" to="/airlines">Airlines</b-nav-item>
+          <b-nav-item class="nav-link" to="/airports">Airports</b-nav-item>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
+    <b-container>
+      <router-view></router-view>
+    </b-container>
   </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+<style lang="scss" scoped>
+.nav-link {
+  font-size: 1.2rem;
 }
 </style>
