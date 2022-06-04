@@ -1,37 +1,65 @@
 <template>
   <div>
-    <b-table :items="items" :fields="fields" striped responsive="sm">
-        <template #cell(test)="row">
-        {{row.item}}
-      </template>
-      <template #cell(show_details)="row">
-        <b-button size="sm" @click="row.toggleDetails" class="mr-2">
-          {{ row.detailsShowing ? "Cancel" : "Edit Details" }} 
+    <b-table :items="tableData" :fields="fields" striped responsive>
+      <template #cell(Edit)="row">
+        <b-button
+          size="sm"
+          @click="row.toggleDetails"
+          variant="primary"
+          class="mr-2"
+        >
+          {{ row.detailsShowing ? "Cancel" : "Edit Details" }}
         </b-button>
       </template>
-      <template #cell(delete)="row">
-        <b-button size="sm" @click="row.toggleDetails" class="mr-2">
-            Delete
+      <template #cell(Delete)="row">
+        <b-button
+          size="sm"
+          @click="submitDelete(row.item.id)"
+          variant="danger"
+          class="mr-2"
+        >
+          Delete
         </b-button>
-
       </template>
 
       <template #row-details="row">
         <b-card>
           <b-row class="mb-2">
-            <b-col sm="3" class="text-sm-right"><b>Age:</b></b-col>
-            <b-col>{{ row.item.age }}</b-col>
+            <b-col sm="3" class="text-sm-right"><b>Airline Name:</b></b-col>
+            <b-col
+              ><b-form-input v-model="row.item.edit_name"></b-form-input
+            ></b-col>
           </b-row>
 
           <b-row class="mb-2">
-            <b-col sm="3" class="text-sm-right"><b>Is Active:</b></b-col>
-            <b-col>{{ row.item.isActive }}</b-col>
+            <b-col sm="3" class="text-sm-right"><b>Country:</b></b-col>
+            <b-col
+              ><b-form-select
+                v-model="row.item.edit_country"
+                :options="countryData"
+              ></b-form-select
+            ></b-col>
           </b-row>
+          <!-- {{row.item.edit_name}}
+          {{row.item.edit_country}} -->
 
-          <b-button size="sm" @click="row.toggleDetails">Hide Details</b-button>
+          <div class="text-center">
+            <b-button
+              size="sm"
+              @click="
+                submitEdit(
+                  row.item.id,
+                  row.item.edit_name,
+                  row.item.edit_country
+                )
+              "
+              variant="success"
+              :disabled="!row.item.edit_name || !row.item.edit_country"
+              >Submit</b-button
+            >
+          </div>
         </b-card>
       </template>
-      
     </b-table>
   </div>
 </template>
@@ -40,25 +68,42 @@
 export default {
   data() {
     return {
-      fields: ["first_name", "last_name", "test","show_details", "delete"],
-      items: [
+      fields: [
         {
-          isActive: true,
-          age: 40,
-          first_name: "Dickerson",
-          last_name: "Macdonald",
+          key: "name",
+          label: "Airline name",
         },
-        { isActive: false, age: 21, first_name: "Larsen", last_name: "Shaw" },
         {
-          isActive: false,
-          age: 89,
-          first_name: "Geneva",
-          last_name: "Wilson",
-          _showDetails: true,
+          key: "country.name",
+          label: "Country",
         },
-        { isActive: true, age: 38, first_name: "Jami", last_name: "Carney" },
+        {
+          key: "country.country_code",
+          label: "Country Code (ISO)",
+          class: "text-center",
+        },
+        "Edit",
+        "Delete",
       ],
     };
+  },
+  props: {
+    tableData: {
+      type: Array,
+      default: () => [],
+    },
+    countryData: {
+      type: Array,
+      default: () => [],
+    },
+  },
+  methods: {
+    submitEdit(id, name, country) {
+      this.$emit("editAirlines", id, name, country);
+    },
+    submitDelete(id) {
+      this.$emit("deleteAirlines", id);
+    },
   },
 };
 </script>

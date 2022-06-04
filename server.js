@@ -4,18 +4,6 @@ const path = require("path");
 
 const app = express();
 
-// const { Pool } = require("pg");
-// const pool = new Pool({
-//   connectionString: process.env.DATABASE_URL,
-//   ssl: {
-//     rejectUnauthorized: false,
-//   },
-// });
-// const pool = new Pool({
-//   connectionString:
-//     process.env.DATABASE_URL || "postgresql://postgres:Teobeo25021999@localhost:5432/database",
-//   ssl: process.env.DATABASE_URL ? true : false,
-// });
 
 //Set static folder
 // app.use("/", serveStatic(path.join(__dirname, "/dist")));

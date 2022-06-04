@@ -40,6 +40,9 @@ router.post("/", async (req, res) => {
 
 //Update airlines
 router.put("/:id", async (req, res) => {
+  // res.header("Access-Control-Allow-Origin", "*");   //testing local only
+  // res.header('Access-Control-Allow-Methods', 'OPTIONS, GET, PUT, PATCH, POST, DELETE');
+  // res.header('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With, Authorization');
   try {
     const client = await pool.connect();
     await client.query(
