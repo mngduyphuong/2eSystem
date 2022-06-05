@@ -124,12 +124,12 @@
     <b-modal
       id="modal-add"
       size="sm"
-      title="Third Modal"
+      title="Add associated airlines"
       ok-only
       hide-header-close
       @ok="addNewAirline"
     >
-      <label for="input-default">Name</label>
+      <label for="input-default">Name</label><br />
       <b-form-select
         v-model="addAirline.detail"
         :options="airlineData"
