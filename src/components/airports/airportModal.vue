@@ -52,7 +52,7 @@
       </b-row>
       <p class="text-danger">Click the map to set Lat and Long</p>
       <google-map @emitLocation="updateLocation"></google-map>
-      <hr/>
+      <hr />
       <b-row>
         <b-col><h4>Associated airlines</h4></b-col>
         <b-col class="text-end"
@@ -92,28 +92,23 @@
           <template #row-details="row">
             <b-card>
               <b-row class="my-2">
-                <b-col sm="1" class="my-auto">
-                  <label for="input-default">Name</label>
+                <b-col class="my-auto">
+                  <label for="input-default">Name</label><br />
+                  <b-form-select
+                    v-model="row.item.detail"
+                    :options="airlineData"
+                  ></b-form-select>
                 </b-col>
-                <b-col sm="3">
-                  <b-form-input
-                    v-model="row.item.name"
-                    size="sm"
-                  ></b-form-input>
-                </b-col>
-                <b-col sm="1" class="my-auto">
-                  <label for="input-default">Depart</label>
-                </b-col>
-                <b-col sm="3">
+
+                <b-col class="my-auto">
+                  <label for="input-default">Depart</label><br />
                   <b-form-select
                     v-model="row.item.depart"
                     :options="countryData"
                   ></b-form-select>
                 </b-col>
-                <b-col sm="1" class="my-auto">
-                  <label for="input-default">Landing</label>
-                </b-col>
-                <b-col sm="3">
+                <b-col class="my-auto">
+                  <label for="input-default">Landing</label><br />
                   <b-form-select
                     v-model="row.item.landing"
                     :options="countryData"
@@ -135,7 +130,10 @@
       @ok="addNewAirline"
     >
       <label for="input-default">Name</label>
-      <b-form-input v-model="addAirline.name" size="sm"></b-form-input>
+      <b-form-select
+        v-model="addAirline.detail"
+        :options="airlineData"
+      ></b-form-select>
       <label for="input-default">Depart</label><br />
       <b-form-select
         v-model="addAirline.depart"
@@ -154,13 +152,13 @@
 <script>
 import googleMap from "./googleMap.vue";
 export default {
-  components: { googleMap},
+  components: { googleMap },
   data() {
     return {
       loading: 0,
       fields: [
         {
-          key: "name",
+          key: "detail.name",
           label: "Airline name",
         },
         {
@@ -175,7 +173,7 @@ export default {
         "delete",
       ],
       addAirline: {},
-      newLocation: {}
+      newLocation: {},
     };
   },
   props: {
@@ -184,6 +182,10 @@ export default {
       default: () => {},
     },
     countryData: {
+      type: Array,
+      default: () => [],
+    },
+    airlineData: {
       type: Array,
       default: () => [],
     },
@@ -209,7 +211,7 @@ export default {
       );
       this.loading = 0;
     },
-    updateLocation(locationData){
+    updateLocation(locationData) {
       this.loading = true;
       this.newLocation = locationData;
       this.loading = false;

@@ -48,6 +48,7 @@
     <airport-modal
       :modalData="modalData"
       :countryData="countryData"
+      :airlineData="airlineData"
       @editAirport="submitEdit"
     ></airport-modal>
   </div>
@@ -92,66 +93,6 @@ export default {
       ],
       editModal: false,
       modalData: {},
-      // items: [
-      //   {
-      //     id: 1,
-          // name: "test 4",
-          // country: {
-          //   name: "AUSTRALIA",
-          //   country_code: "aus",
-          // },
-          // location: {
-          //   lat: 1,
-          //   lng: 1,
-          // },
-          // airlines: [
-          //   {
-          //     name: "airline 1",
-          //     landing: { name: "America", country_code: "us" },
-          //     depart: { name: "AUSTRALIA", country_code: "aus" },
-          //   },
-          //   {
-          //     name: "airline 2",
-          //     landing: { name: "America", country_code: "us" },
-          //     depart: { name: "AUSTRALIA", country_code: "aus" },
-          //   },
-          // ],
-      //   },
-      //   {
-      //     id: 2,
-      //     name: "test 5",
-      //     country: {
-      //       name: "America",
-      //       country_code: "us",
-      //     },
-      //     location: {
-      //       lat: 1,
-      //       lng: 1,
-      //     },
-      //     airlines: [
-      //       {
-      //         name: "airline 1",
-      //         landing: { name: "America", country_code: "us" },
-      //         depart: { name: "America", country_code: "us" },
-      //       },
-      //       {
-      //         name: "airline 2",
-      //         landing: { name: "America", country_code: "us" },
-      //         depart: { name: "America", country_code: "us" },
-      //       },
-      //     ],
-      //   },
-      // ],
-      // country_data: [
-      //   {
-      //     text: "AUSTRALIA",
-      //     value: { name: "AUSTRALIA", country_code: "aus" },
-      //   },
-      //   {
-      //     text: "America",
-      //     value: { name: "America", country_code: "us" },
-      //   },
-      // ],
     };
   },
   props: {
@@ -160,6 +101,10 @@ export default {
       default: () => [],
     },
     countryData: {
+      type: Array,
+      default: () => [],
+    },
+    airlineData: {
       type: Array,
       default: () => [],
     },

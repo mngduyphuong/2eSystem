@@ -14,6 +14,7 @@
       v-else
       :tableData="tableData"
       :countryData="countryData"
+      :airlineData="airlineData"
       @editAirport="putAirport"
       @deleteAirport="deleteAirport"
     ></airport-table>
@@ -33,11 +34,13 @@ export default {
       loading: true,
       tableData: [],
       countryData: [],
+      airlineData: []
     };
   },
-  created() {
+  async created() {
     this.getDataAirport();
     this.getDataCountry();
+    this.getDataAirline();
   },
   methods: {
     getDataAirport() {
@@ -47,6 +50,25 @@ export default {
         .then((response) => {
           // handle success
           this.tableData = response.data.results;
+          this.loading = false;
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        });
+    },
+    getDataAirline() {
+      this.loading = true;
+      axios
+        .get("/api/airline")
+        .then((response) => {
+          // handle success
+          this.airlineData = response.data.results.map((item) => {
+            const tempData = {};
+            tempData.text = item.name;
+            tempData.value = item;
+            return tempData;
+          });
           this.loading = false;
         })
         .catch(function (error) {

@@ -12,7 +12,7 @@ export default {
     return {
       fields: [
         {
-          key: "name",
+          key: "detail.name",
           label: "Airline name",
         },
         {
