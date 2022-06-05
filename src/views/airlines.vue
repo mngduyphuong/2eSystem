@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div>
     <h2 class="text-center text-danger my-4">
       Create, Edit, Update and Delete airlines
     </h2>

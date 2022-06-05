@@ -1,0 +1,231 @@
+<template>
+  <div>
+    <b-modal
+      id="modal-1"
+      title="Editing airport"
+      hide-header-close
+      size="lg"
+      @ok="handleOk"
+    >
+      <b-row class="my-2">
+        <b-col sm="2" class="my-auto">
+          <label for="input-default">Airport name:</label>
+        </b-col>
+        <b-col sm="10">
+          <b-form-input v-model="tempData.name" size="sm"></b-form-input>
+        </b-col>
+      </b-row>
+      <!-- -->
+      <b-row class="my-2">
+        <b-col sm="2" class="my-auto">
+          <label for="input-default">Country</label>
+        </b-col>
+        <b-col sm="10">
+          <b-form-select
+            v-model="tempData.country"
+            :options="countryData"
+          ></b-form-select>
+        </b-col>
+      </b-row>
+      <!-- -->
+      <b-row class="my-2" v-if="!loading">
+        <b-col sm="2" class="my-auto">
+          <label for="input-default">Latitude</label>
+        </b-col>
+        <b-col sm="4">
+          <b-form-input
+            v-model="newLocation.lat"
+            readonly
+            size="sm"
+          ></b-form-input>
+        </b-col>
+        <b-col sm="2" class="my-auto">
+          <label for="input-default">Longitude</label>
+        </b-col>
+        <b-col sm="4">
+          <b-form-input
+            v-model="newLocation.lng"
+            readonly
+            size="sm"
+          ></b-form-input>
+        </b-col>
+      </b-row>
+      <p class="text-danger">Click the map to set Lat and Long</p>
+      <google-map @emitLocation="updateLocation"></google-map>
+      <hr/>
+      <b-row>
+        <b-col><h4>Associated airlines</h4></b-col>
+        <b-col class="text-end"
+          ><b-button
+            size="sm"
+            class="mr-2"
+            variant="primary"
+            v-b-modal.modal-add
+          >
+            Add new airlines</b-button
+          ></b-col
+        >
+      </b-row>
+      <div :key="loading">
+        <b-table hover :items="tempData.airlines" :fields="fields" class="my-2">
+          <template #cell(edit)="row">
+            <b-button
+              size="sm"
+              class="mr-2"
+              variant="info"
+              @click="row.toggleDetails"
+            >
+              {{ row.detailsShowing ? "Hide" : "Edit" }}
+            </b-button>
+          </template>
+
+          <template #cell(delete)="row">
+            <b-button
+              size="sm"
+              class="mr-2"
+              variant="danger"
+              @click="removeAirline(row.item)"
+            >
+              Delete
+            </b-button>
+          </template>
+          <template #row-details="row">
+            <b-card>
+              <b-row class="my-2">
+                <b-col sm="1" class="my-auto">
+                  <label for="input-default">Name</label>
+                </b-col>
+                <b-col sm="3">
+                  <b-form-input
+                    v-model="row.item.name"
+                    size="sm"
+                  ></b-form-input>
+                </b-col>
+                <b-col sm="1" class="my-auto">
+                  <label for="input-default">Depart</label>
+                </b-col>
+                <b-col sm="3">
+                  <b-form-select
+                    v-model="row.item.depart"
+                    :options="countryData"
+                  ></b-form-select>
+                </b-col>
+                <b-col sm="1" class="my-auto">
+                  <label for="input-default">Landing</label>
+                </b-col>
+                <b-col sm="3">
+                  <b-form-select
+                    v-model="row.item.landing"
+                    :options="countryData"
+                  ></b-form-select>
+                </b-col>
+              </b-row>
+            </b-card>
+          </template>
+        </b-table>
+      </div>
+    </b-modal>
+
+    <b-modal
+      id="modal-add"
+      size="sm"
+      title="Third Modal"
+      ok-only
+      hide-header-close
+      @ok="addNewAirline"
+    >
+      <label for="input-default">Name</label>
+      <b-form-input v-model="addAirline.name" size="sm"></b-form-input>
+      <label for="input-default">Depart</label><br />
+      <b-form-select
+        v-model="addAirline.depart"
+        :options="countryData"
+      ></b-form-select
+      ><br />
+      <label for="input-default">Landing</label><br />
+      <b-form-select
+        v-model="addAirline.landing"
+        :options="countryData"
+      ></b-form-select>
+    </b-modal>
+  </div>
+</template>
+
+<script>
+import googleMap from "./googleMap.vue";
+export default {
+  components: { googleMap},
+  data() {
+    return {
+      loading: 0,
+      fields: [
+        {
+          key: "name",
+          label: "Airline name",
+        },
+        {
+          key: "depart.name",
+          label: "Depart from",
+        },
+        {
+          key: "landing.name",
+          label: "Landing to",
+        },
+        "edit",
+        "delete",
+      ],
+      addAirline: {},
+      newLocation: {}
+    };
+  },
+  props: {
+    modalData: {
+      type: Object,
+      default: () => {},
+    },
+    countryData: {
+      type: Array,
+      default: () => [],
+    },
+  },
+  computed: {
+    tempData: {
+      get: function () {
+        return JSON.parse(JSON.stringify(this.modalData));
+      },
+    },
+  },
+  methods: {
+    async addNewAirline() {
+      this.loading = 1;
+      await this.tempData.airlines.push(this.addAirline);
+      this.addAirline = {};
+      this.loading = 0;
+    },
+    removeAirline(airline) {
+      this.loading = 1;
+      this.tempData.airlines = this.tempData.airlines.filter(
+        (item) => item !== airline
+      );
+      this.loading = 0;
+    },
+    updateLocation(locationData){
+      this.loading = true;
+      this.newLocation = locationData;
+      this.loading = false;
+    },
+    handleOk() {
+      this.$emit(
+        "editAirport",
+        this.tempData.id,
+        this.tempData.name,
+        this.tempData.country,
+        this.newLocation,
+        this.tempData.airlines
+      );
+    },
+  },
+};
+</script>
+
+<style></style>
