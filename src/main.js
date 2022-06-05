@@ -13,8 +13,7 @@ Vue.use(VueGoogleMaps, {
     libraries: "places"
   }
 });
-console.log(process.env.GOOGLE_API);
-console.log(process.env.DATABASE_URL);
+
 
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue)
