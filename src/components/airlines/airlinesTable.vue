@@ -1,6 +1,8 @@
 <template>
   <div>
+    <!-- Render table with prop data from parent, fields options are declared localy -->
     <b-table :items="tableData" :fields="fields" striped responsive>
+      <!-- Edit function -->
       <template #cell(Edit)="row">
         <b-button
           size="sm"
@@ -11,17 +13,7 @@
           {{ row.detailsShowing ? "Cancel" : "Edit Details" }}
         </b-button>
       </template>
-      <template #cell(Delete)="row">
-        <b-button
-          size="sm"
-          @click="submitDelete(row.item.id)"
-          variant="danger"
-          class="mr-2"
-        >
-          Delete
-        </b-button>
-      </template>
-
+      <!-- Edit form -->
       <template #row-details="row">
         <b-card>
           <b-row class="mb-2">
@@ -40,9 +32,7 @@
               ></b-form-select
             ></b-col>
           </b-row>
-          <!-- {{row.item.edit_name}}
-          {{row.item.edit_country}} -->
-
+          <!-- Submit the edit data to submitEdit() and emit back to parent -->
           <div class="text-center">
             <b-button
               size="sm"
@@ -59,6 +49,18 @@
             >
           </div>
         </b-card>
+      </template>
+
+      <!-- Delete function -->
+      <template #cell(Delete)="row">
+        <b-button
+          size="sm"
+          @click="submitDelete(row.item.id)"
+          variant="danger"
+          class="mr-2"
+        >
+          Delete
+        </b-button>
       </template>
     </b-table>
   </div>
@@ -98,6 +100,7 @@ export default {
     },
   },
   methods: {
+    // Handle PUT and DELETE function
     submitEdit(id, name, country) {
       this.$emit("editAirlines", id, name, country);
     },

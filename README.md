@@ -1,24 +1,41 @@
-# 2esystem
+# 2esystem - Simple CRUD aviation system
+This is a responsive CRUD web application for managing airports using Vue.JS, Boostrap, PostgreSQL, Axios and Express.JS
+
+View the deployed version on Heroku: https://eesystem.herokuapp.com/
 
 ## Project setup
+#### Install dependencies
 ```
-yarn install
+npm install
+```
+#### Required tables
+```
+CREATE TABLE countries_table (name text, country_code text);
+CREATE TABLE airlines_table (id serial NOT NULL PRIMARY KEY,name text NOT NULL, country json NOT NULL);
+CREATE TABLE airports_table (id serial NOT NULL PRIMARY KEY,name text NOT NULL, country json NOT NULL, location json NOT NULL, airlines json);
+```
+#### Static data
+```
+INSERT INTO countries_table (name, country_code) VALUES ('United States', 'US/USA'),('China', 'CN/CHN'),('Japan', 'JP/JPN'),('Germany', 'DE/DEU'),('Brazil', 'BR/BRA'),('France', 'FR/FRA'),('Italy', 'IT/ITA'),('Russia', 'RU/RUS'),('United Kingdom', 'GB/GBR'),('Australia', 'AU/AUS');
+```
+#### .ENV file format
+```
+VUE_APP_GOOGLE_API = yourApiKey
+DATABASE_URL = yourPostgresqlDatabase
 ```
 
-### Compiles and hot-reloads for development
+## Compiles and hot-reloads for Frontend development
 ```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
+npm run serve
 ```
 
-### Lints and fixes files
+## Compiles for Backend development
 ```
-yarn lint
+npm run dev
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Compiles for local testing both Frontend and Backend
+```
+npm run build
+npm run dev
+```

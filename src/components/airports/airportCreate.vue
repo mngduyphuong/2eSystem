@@ -5,7 +5,7 @@
         >Create new Airport</b-button
       >
     </div>
-
+    <!-- Creating modal -->
     <b-modal
       id="modal-airport"
       title="Create"
@@ -14,6 +14,7 @@
       @cancel="handleCancel"
       @hide="handleCancel"
     >
+      <!-- Input form that binded to local this.newData -->
       <b-row class="my-2">
         <b-col sm="2" class="my-auto">
           <label for="input-default">Airport name:</label>
@@ -22,7 +23,7 @@
           <b-form-input v-model="newData.name" size="sm"></b-form-input>
         </b-col>
       </b-row>
-      <!-- -->
+      <!--  -->
       <b-row class="my-2">
         <b-col sm="2" class="my-auto">
           <label for="input-default">Country</label>
@@ -34,7 +35,7 @@
           ></b-form-select>
         </b-col>
       </b-row>
-      <!-- -->
+      <!--  -->
       <b-row class="my-2" v-if="!loading">
         <b-col sm="2" class="my-auto">
           <label for="input-default">Latitude</label>
@@ -57,7 +58,9 @@
           ></b-form-input>
         </b-col>
       </b-row>
-      <p class="text-danger">Click the map to set Lat and Long</p>
+
+      <!-- Google map that emit back Lat and Lng of click event -->
+      <p class="text-danger">Click the map to set Lat and Lng</p>
       <google-map @emitLocation="updateLocation"></google-map>
     </b-modal>
   </div>
@@ -76,7 +79,7 @@ export default {
           lat: 0,
           lng: 0,
         },
-        airlines: []
+        airlines: [],
       },
       loading: false,
     };
@@ -93,9 +96,11 @@ export default {
       this.newData.location = locationData;
       this.loading = false;
     },
+    // Emit data
     handleOk() {
       this.$emit("postAirlines", this.newData);
     },
+    // Reset input data if modal is close/hide
     handleCancel() {
       this.newData = {
         name: "",
@@ -104,7 +109,7 @@ export default {
           lat: 0,
           lng: 0,
         },
-        airlines: []
+        airlines: [],
       };
     },
   },

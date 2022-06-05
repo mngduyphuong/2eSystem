@@ -8,7 +8,7 @@
 
 <script>
 export default {
-    data() {
+  data() {
     return {
       fields: [
         {
@@ -23,7 +23,6 @@ export default {
           key: "landing.name",
           label: "Landing to",
         },
-       
       ],
     };
   },

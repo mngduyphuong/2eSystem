@@ -5,14 +5,13 @@ const path = require("path");
 const app = express();
 
 //Set static folder
-// app.use("/", serveStatic(path.join(__dirname, "/dist")));
 app.use(express.static(path.join(__dirname, "dist")));
 
 //Body Parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-//use api
+//Use API, all APIs are stored in src/api folder
 app.use('/api/country', require("./src/api/country"));
 app.use('/api/airline', require("./src/api/airline"));
 app.use('/api/airport', require("./src/api/airport"));

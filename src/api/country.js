@@ -8,7 +8,8 @@ const pool = new Pool({
     "postgresql://postgres:Teobeo25021999@localhost:5432/database",
   ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false,
 });
-
+//Country data is static so no need to put,post and delete
+//Get all airports
 router.get("/", async (req, res) => {
   try {
     const client = await pool.connect();

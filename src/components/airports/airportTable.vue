@@ -1,6 +1,16 @@
 <template>
   <div>
+    <!-- Render table with prop data from parent, fields options are declared localy -->
     <b-table :items="tableData" :fields="fields" striped responsive>
+      <!-- Custom render header of the table -->
+      <template #head(airlines)>
+        <div class="text-center">No. Airlines</div>
+      </template>
+      <template #cell(airlines)="row">
+        <div class="text-center">{{ row.item.airlines.length }}</div>
+      </template>
+
+      <!-- Show associated airlines of airports-->
       <template #cell(details)="row">
         <b-button
           size="sm"
@@ -12,16 +22,12 @@
         </b-button>
       </template>
       <template #row-details="row">
+        <!-- associated airlines are rendered with an addition table -->
+        <!-- Data is prop with airlines of current row airports: row.item-->
         <connected-airlines :tableData="row.item.airlines"></connected-airlines>
       </template>
 
-      <template #head(airlines)>
-        <div class="text-center">No. Airlines</div>
-      </template>
-      <template #cell(airlines)="row">
-        <div class="text-center">{{ row.item.airlines.length }}</div>
-      </template>
-
+      <!-- Edit button will open another child modal, all data is processed locally before emitting and submiting to db-->
       <template #cell(edit)="row">
         <b-button
           size="sm"
@@ -34,6 +40,7 @@
         </b-button>
       </template>
 
+      <!-- Delete current airport by querry airport id -->
       <template #cell(delete)="row">
         <b-button
           size="sm"
@@ -45,6 +52,8 @@
         </b-button>
       </template>
     </b-table>
+
+    <!-- Edit modal -->
     <airport-modal
       :modalData="modalData"
       :countryData="countryData"

@@ -9,7 +9,7 @@ const pool = new Pool({
   ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false,
 });
 
-//Get all airlines
+//Get all airports
 router.get("/", async (req, res) => {
   try {
     const client = await pool.connect();
@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-//Adding airlines
+//Adding airports
 router.post("/", async (req, res) => {
   try {
     const client = await pool.connect();
@@ -39,7 +39,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-//Update airlines
+//Update airports
 router.put("/:id", async (req, res) => {
   try {
     const client = await pool.connect();
@@ -56,7 +56,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-//Delete airlines
+//Delete airports
 router.delete("/:id", async (req, res) => {
   try {
     const client = await pool.connect();

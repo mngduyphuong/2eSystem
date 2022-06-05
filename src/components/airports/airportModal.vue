@@ -7,6 +7,10 @@
       size="lg"
       @ok="handleOk"
     >
+      <!-- !!!!!!!  All edited data are Binded to local this.tempData and process before emit !!!!!!!!  -->
+      <!-- DATA ONLY EMITTED BACK TO PARENT IF USER CLICK OK ON 1ST-LAYER MODAL -->
+
+      <!-- Edit name input -->
       <b-row class="my-2">
         <b-col sm="2" class="my-auto">
           <label for="input-default">Airport name:</label>
@@ -15,7 +19,8 @@
           <b-form-input v-model="tempData.name" size="sm"></b-form-input>
         </b-col>
       </b-row>
-      <!-- -->
+
+      <!-- Edit available countries from db by select input -->
       <b-row class="my-2">
         <b-col sm="2" class="my-auto">
           <label for="input-default">Country</label>
@@ -27,7 +32,8 @@
           ></b-form-select>
         </b-col>
       </b-row>
-      <!-- -->
+
+      <!--Lat and Lng are READONLY and set by clicking the map-->
       <b-row class="my-2" v-if="!loading">
         <b-col sm="2" class="my-auto">
           <label for="input-default">Latitude</label>
@@ -50,35 +56,31 @@
           ></b-form-input>
         </b-col>
       </b-row>
-      <p class="text-danger">Click the map to set Lat and Long</p>
+      <p class="text-danger">Click the map to set Lat and Lng</p>
+      <!-- Google map that emit the Lat and Lng data -->
       <google-map @emitLocation="updateLocation"></google-map>
       <hr />
+
+      <!--  -->
+      <!-- Associated airlines: listed by table + Add function -->
       <b-row>
         <b-col><h4>Associated airlines</h4></b-col>
-        <b-col class="text-end"
-          ><b-button
+        <b-col class="text-end">
+          <!-- Button to open 2nd layer modal to add new connected airlines -->
+          <b-button
             size="sm"
             class="mr-2"
             variant="primary"
             v-b-modal.modal-add
           >
             Add new airlines</b-button
-          ></b-col
-        >
+          >
+        </b-col>
       </b-row>
+      <!-- Re-render with loading key to update local data -->
       <div :key="loading">
         <b-table hover :items="tempData.airlines" :fields="fields" class="my-2">
-          <template #cell(edit)="row">
-            <b-button
-              size="sm"
-              class="mr-2"
-              variant="info"
-              @click="row.toggleDetails"
-            >
-              {{ row.detailsShowing ? "Hide" : "Edit" }}
-            </b-button>
-          </template>
-
+          <!-- Delete current connected airlines -->
           <template #cell(delete)="row">
             <b-button
               size="sm"
@@ -89,6 +91,19 @@
               Delete
             </b-button>
           </template>
+
+          <!-- Edit current connected airlines -->
+          <template #cell(edit)="row">
+            <b-button
+              size="sm"
+              class="mr-2"
+              variant="info"
+              @click="row.toggleDetails"
+            >
+              {{ row.detailsShowing ? "Hide" : "Edit" }}
+            </b-button>
+          </template>
+          <!-- edit form -->
           <template #row-details="row">
             <b-card>
               <b-row class="my-2">
@@ -99,7 +114,6 @@
                     :options="airlineData"
                   ></b-form-select>
                 </b-col>
-
                 <b-col class="my-auto">
                   <label for="input-default">Depart</label><br />
                   <b-form-select
@@ -121,6 +135,8 @@
       </div>
     </b-modal>
 
+    <!--  -->
+    <!-- 2nd layer modal to add new airlines-->
     <b-modal
       id="modal-add"
       size="sm"
@@ -133,7 +149,8 @@
       <b-form-select
         v-model="addAirline.detail"
         :options="airlineData"
-      ></b-form-select>
+      ></b-form-select
+      ><br />
       <label for="input-default">Depart</label><br />
       <b-form-select
         v-model="addAirline.depart"
@@ -198,6 +215,7 @@ export default {
     },
   },
   methods: {
+    // Add/Delete airlines to local data this.tempData
     async addNewAirline() {
       this.loading = 1;
       await this.tempData.airlines.push(this.addAirline);
@@ -206,16 +224,21 @@ export default {
     },
     removeAirline(airline) {
       this.loading = 1;
+      // Filtering out airlines from local this.tempData with matching value
       this.tempData.airlines = this.tempData.airlines.filter(
         (item) => item !== airline
       );
       this.loading = 0;
     },
+
+    // Update current location from GooogleMap click event
     updateLocation(locationData) {
       this.loading = true;
       this.newLocation = locationData;
       this.loading = false;
     },
+
+    // Emit all local eddited data to parent to work with db
     handleOk() {
       this.$emit(
         "editAirport",

@@ -11,9 +11,8 @@
           <img src="./assets/2e_logo.png" width="40%" />
         </div>
       </b-navbar-brand>
-
+      <!-- nav bar keep on top of the web all time, collapse when viewing on smaller resolution device -->
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item class="nav-link" to="/">Home</b-nav-item>
@@ -22,6 +21,8 @@
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
+    <!-- Router view, router can be modified in router/index.js file-->
+    <!-- There are 3 main pages with addition child components -->
     <b-container>
       <router-view></router-view>
     </b-container>
