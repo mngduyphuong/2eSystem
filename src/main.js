@@ -9,7 +9,7 @@ import * as VueGoogleMaps from "vue2-google-maps"
 Vue.config.productionTip = false
 Vue.use(VueGoogleMaps, {
   load: {
-    key: process.env.GOOGLE_API,
+    key: process.env.GOOGLE_API || "AIzaSyBr0EdJvTshNOBGq1oFEnctTNsIWWnGgFs",
     libraries: "places"
   }
 });
