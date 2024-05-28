@@ -3,8 +3,8 @@ const router = express.Router();
 
 const { Pool } = require("pg");
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false,
+  connectionString: process.env.VUE_APP_DATABASE_URL,
+  ssl: process.env.VUE_APP_DATABASE_URL ? { rejectUnauthorized: false } : false,
 });
 
 //Get all airports
