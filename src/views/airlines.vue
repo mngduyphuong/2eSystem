@@ -51,7 +51,7 @@ export default {
     getDataAirline() {
       this.loading = true;
       axios
-        .get("/api/airline")
+        .get(`${process.env.VUE_APP_API_URL}/api/airline`)
         .then((response) => {
           this.tableData = response.data.results;
           this.loading = false;
@@ -62,7 +62,7 @@ export default {
     },
     getDataCountry() {
       axios
-        .get("/api/country")
+        .get(`${process.env.VUE_APP_API_URL}/api/country`)
         .then((response) => {
           // Process response data to match Vue-Boostrap select input
           this.countryData = response.data.results.map((item) => {
@@ -82,7 +82,7 @@ export default {
     async postAirline(postData) {
       await axios({
         method: "post",
-        url: `/api/airline`,
+        url: `${process.env.VUE_APP_API_URL}/api/airline`,
         data: {
           name: postData.name,
           country: postData.country,
@@ -93,7 +93,7 @@ export default {
     async putAirline(id, name, country) {
       await axios({
         method: "put",
-        url: `/api/airline/${id}`,
+        url: `${process.env.VUE_APP_API_URL}/api/airline/${id}`,
         data: {
           name: name,
           country: country,
@@ -104,7 +104,7 @@ export default {
     async deleteAirline(id) {
       await axios({
         method: "delete",
-        url: `/api/airline/${id}`,
+        url: `${process.env.VUE_APP_API_URL}/api/airline/${id}`,
       });
       this.getDataAirline();
     },

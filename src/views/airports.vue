@@ -55,7 +55,7 @@ export default {
     getDataAirport() {
       this.loading = true;
       axios
-        .get("/api/airport")
+        .get(`${process.env.VUE_APP_API_URL}/api/airport`)
         .then((response) => {
           this.tableData = response.data.results;
           this.loading = false;
@@ -68,7 +68,7 @@ export default {
     getDataAirline() {
       this.loading = true;
       axios
-        .get("/api/airline")
+        .get(`${process.env.VUE_APP_API_URL}/api/airline`)
         .then((response) => {
           this.airlineData = response.data.results.map((item) => {
             const tempData = {};
@@ -84,7 +84,7 @@ export default {
     },
     getDataCountry() {
       axios
-        .get("/api/country")
+        .get(`${process.env.VUE_APP_API_URL}/api/country`)
         .then((response) => {
           this.countryData = response.data.results.map((item) => {
             const tempData = {};
@@ -103,7 +103,7 @@ export default {
     async postAirport(postData) {
       await axios({
         method: "post",
-        url: `/api/airport`,
+        url: `${process.env.VUE_APP_API_URL}/api/airport`,
         data: {
           name: postData.name,
           country: postData.country,
@@ -116,7 +116,7 @@ export default {
     async putAirport(id, name, country, location, airlines) {
       await axios({
         method: "put",
-        url: `/api/airport/${id}`,
+        url: `${process.env.VUE_APP_API_URL}/api/airport/${id}`,
         data: {
           name: name,
           country: country,
@@ -129,7 +129,7 @@ export default {
     async deleteAirport(id) {
       await axios({
         method: "delete",
-        url: `/api/airport/${id}`,
+        url: `${process.env.VUE_APP_API_URL}/api/airport/${id}`,
       });
       this.getDataAirport();
     },
