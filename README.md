@@ -1,7 +1,7 @@
 # 2esystem - Simple CRUD aviation system
 This is a responsive CRUD web application for managing airports using Vue.JS, Boostrap, PostgreSQL, Axios and Express.JS
 
-View the deployed version on Heroku: https://eesystem.herokuapp.com/
+View the deployed version on Render: https://twoesystem-fe.onrender.com
 
 ## Project setup
 #### Install dependencies
@@ -21,7 +21,7 @@ INSERT INTO countries_table (name, country_code) VALUES ('United States', 'US/US
 #### .ENV file format
 ```
 VUE_APP_GOOGLE_API = yourApiKey
-DATABASE_URL = yourPostgresqlDatabase
+VUE_APP_DATABASE_URL = yourPostgresqlDatabase
 ```
 
 ## Compiles and hot-reloads for Frontend development
@@ -31,11 +31,5 @@ npm run serve
 
 ## Compiles for Backend development
 ```
-npm run dev
-```
-
-## Compiles for local testing both Frontend and Backend
-```
-npm run build
 npm run dev
 ```
